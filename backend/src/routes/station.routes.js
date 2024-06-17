@@ -5,9 +5,11 @@ import {
   getAllServiceStation,
   getServiceStationById,
   postServiceStation,
+  searchServiceStation,
 } from '../controllers/station.controller.js'
 
 const router = Router()
+router.route('/search').get(searchServiceStation)
 router.route('/').get(getAllServiceStation)
 router.route('/:id').get(getServiceStationById)
 router.route('/').post(postServiceStation)

@@ -1,6 +1,21 @@
 import { Station } from '../models/station.model.js'
 import { ApiResponse } from '../utils/ApiResponse.js'
 
+const searchServiceStation = async (req, res) => {
+  try {
+    const { query } = req.query
+    const result = await Station.find({
+      $or: [
+        { streetName: { $regex: query, $options: 'i' } },
+        { city: { $regex: query, $options: 'i' } },
+      ],
+    })
+    res.status(200).json(new ApiResponse(200, 'success', result))
+  } catch (error) {
+    res.status(500).json(new ApiResponse(200, error.message, null))
+  }
+}
+
 const getAllServiceStation = async (_, res) => {
   try {
     console.log('getAllServiceStation')
@@ -120,6 +135,7 @@ const deleteServiceStation = async (req, res) => {
 }
 
 export {
+  searchServiceStation,
   getAllServiceStation,
   getServiceStationById,
   postServiceStation,
