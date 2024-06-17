@@ -16,28 +16,49 @@ const searchServiceStation = async (req, res) => {
   }
 }
 
+function formatData(result) {
+  const response = result.map((station) => {
+    return {
+      objectId: station.objectId,
+      address: `${station.streetName} ${station.houseNumber} (${station.zipCode} ${station.city}) `,
+      latitude: station.latitude,
+      longitude: station.longitude,
+    }
+  })
+  return response
+}
 const getAllServiceStation = async (_, res) => {
   try {
-    console.log('getAllServiceStation')
-    const result = await Station.find(
-      {},
-      { _id: 0, __v: 0, createdAt: 0, updatedAt: 0 }
-    )
-    if (result) {
-      const response = result.map((station) => {
-        return {
-          objectId: station.objectId,
-          address: `${station.streetName} ${station.houseNumber} (${station.zipCode} ${station.city}) `,
-          latitude: station.latitude,
-          longitude: station.longitude,
-        }
-      })
-      res
-        .status(200)
-        .json(new ApiResponse(200, 'Data retrieved successfully', response))
-    } else {
-      throw new Error("couldn't get data from database ")
-    }
+    // console.log('getAllServiceStation')
+    // const result = await Station.find(
+    //   {},
+    //   { _id: 0, __v: 0, createdAt: 0, updatedAt: 0 }
+    // )
+    // if (result) {
+    //   const response = result.map((station) => {
+    //     return {
+    //       objectId: station.objectId,
+    //       address: `${station.streetName} ${station.houseNumber} (${station.zipCode} ${station.city}) `,
+    //       latitude: station.latitude,
+    //       longitude: station.longitude,
+    //     }
+    //   })
+    //   res
+    //     .status(200)
+    //     .json(new ApiResponse(200, 'Data retrieved successfully', response))
+    // } else {
+    //   throw new Error("couldn't get data from database ")
+    // }
+    const paginatedResults = res.paginatedResults
+
+    const response = formatData(paginatedResults.results)
+    console.log(response, '###')
+    paginatedResults.results = response
+    res
+      .status(200)
+      .json(
+        new ApiResponse(200, 'Data retrieved successfully', paginatedResults)
+      )
   } catch (error) {
     console.log(error.message, 'getAllServiceStation')
     res.status(500).json(new ApiResponse(500, error.message, null))
