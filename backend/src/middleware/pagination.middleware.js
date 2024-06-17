@@ -22,7 +22,7 @@ const pagination = (schema) => async (req, res, next) => {
   try {
     results.results = await schema.find().limit(limit).skip(startIndex)
     res.paginatedResults = results
-    next()
+    return next()
   } catch (e) {
     res.json(new ApiResponse(500, error.message, null))
   }
