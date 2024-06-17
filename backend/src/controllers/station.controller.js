@@ -139,10 +139,9 @@ const editServiceStation = async (req, res) => {
     if (parseInt(id) !== objectId) {
       return res.status(400).json(new ApiResponse(400, 'Invalid request', null))
     }
-    const existingServiceStation = await Station.findOne(
-      { objectId: id },
-      { _id: 0, __v: 0, createdAt: 0, updatedAt: 0 }
-    )
+    const existingServiceStation = await Station.findOne({
+      objectId: id,
+    }).select('-_id -__v -createdAt -updatedAt')
     if (!existingServiceStation) {
       return res
         .status(404)
@@ -195,7 +194,6 @@ const editServiceStation = async (req, res) => {
           existingServiceStation
         )
       )
-    console.log('editServiceStation')
   } catch (error) {
     console.log(error.message, 'editServiceStation')
     return res.status(500).json(new ApiResponse(500, error.message, null))
