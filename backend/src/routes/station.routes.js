@@ -5,7 +5,7 @@ import {
   getAllServiceStation,
   getServiceStationById,
   postServiceStation,
-} from '../controllers/station.controller'
+} from '../controllers/station.controller.js'
 
 const router = Router()
 router.route('/').get(getAllServiceStation)

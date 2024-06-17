@@ -26,10 +26,12 @@ const stationSchema = new Schema(
     latitude: {
       type: Number,
       required: [true, 'latitude is required'],
+      unique: true,
     },
     longitude: {
       type: Number,
       required: [true, 'longitude is required'],
+      unique: true,
     },
   },
   {

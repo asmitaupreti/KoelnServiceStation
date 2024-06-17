@@ -16,6 +16,6 @@ app.use(express.urlencoded({ extended: true, limit: '16kb' }))
 import stationRouter from './routes/station.routes.js'
 
 //routes declaration
-app.use('v1/api/stations', stationRouter)
+app.use('/api/stations', stationRouter)
 
 export { app }
