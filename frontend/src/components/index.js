@@ -1,5 +1,5 @@
 import SearchInput from './SearchInput'
 import ServiceStationList from './ServiceStationList'
-import SortButton from './SortButton'
+import SortSelect from './SortSelect'
 
-export { SearchInput, ServiceStationList, SortButton }
+export { SearchInput, ServiceStationList, SortSelect }

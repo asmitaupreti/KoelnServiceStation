@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useDebounce, useFetchData, useSortData } from './hooks'
-import { SearchInput, ServiceStationList, SortButton } from './components'
+import { SearchInput, ServiceStationList, SortSelect } from './components'
 
 const App = () => {
   const { serviceStationData, isLoading, error } = useFetchData()
@@ -17,8 +17,8 @@ const App = () => {
 
   const sortedData = useSortData(filteredData, sortOrder)
 
-  const handleSort = (order) => {
-    setSortOrder(order)
+  const handleSortChange = (value) => {
+    setSortOrder(value)
   }
 
   if (isLoading) {
@@ -30,14 +30,14 @@ const App = () => {
   }
 
   return (
-    <div className="p-4">
-      <div className="flex items-center mb-4">
-        <SearchInput value={searchInput} onChange={setSearchInput} />
-        <SortButton label="asc" onClick={() => handleSort('asc')} />
-        <SortButton label="desc" onClick={() => handleSort('desc')} />
+    <div className="flex flex-col items-center  min-h-screen bg-gray-100">
+      <div className="w-full max-w-screen-lg p-6">
+        <div className="flex justify-between items-center mb-6">
+          <SearchInput value={searchInput} onChange={setSearchInput} />
+          <SortSelect value={sortOrder} onChange={handleSortChange} />
+        </div>
+        <ServiceStationList data={sortedData} />
       </div>
-
-      <ServiceStationList data={sortedData} />
     </div>
   )
 }
